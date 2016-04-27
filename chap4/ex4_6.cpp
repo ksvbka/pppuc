@@ -16,7 +16,7 @@ using namespace std;
 int Convert_number_app(){
     // Vector to hold spelled out of digit
     vector<string> spelled_digit{"one", "two", "three", "four", "five", \
-                                 "six","seven", "eigh", "nine"};
+                                 "six","seven", "eight", "nine"};
     // Vector to hold digit
     vector<string> digit{"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
