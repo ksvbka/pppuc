@@ -28,9 +28,10 @@ long long cal_grain_nth(int n){
         grain = n;
         grain_nth.push_back(grain);
     }
-    else
+    else{
         grain = grain_nth[n - 2] * grain_nth[n - 2];
-    grain_nth.push_back(grain);
+        grain_nth.push_back(grain);
+    }
     return grain;
 }
 
