@@ -13,33 +13,39 @@ on.*/
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
+
+// Vector hold grain of nth cell;
+vector<long long> grain_nth;
+
+long long cal_grain_nth(int n){
+    long long grain;
+    if(n <= 0)
+        throw runtime_error("Bad input");
+    if(n <= 2){
+        grain = n;
+        grain_nth.push_back(grain);
+    }
+    else
+        grain = grain_nth[n - 2] * grain_nth[n - 2];
+    grain_nth.push_back(grain);
+    return grain;
+}
 
 int Least_square_calculation(){
     long long grain_goal;
     cout << "Input the grains you need: ";
     cin >> grain_goal;
 
-    if( grain_goal == 1){
-        cout << "The least square you need is 1";
-        return 0;
+    long long sum = 0;
+    int count;
+    for(count = 1; sum < grain_goal; ++count){
+        sum += cal_grain_nth(count);
+        cout << "Square: " << count << " grains: " << sum << endl;
     }
-    if( grain_goal <= 3){
-        cout << "The least square you need is 2";
-        return 0;
-    }
-
-    long long grain_cal = 3;
-    long long grain_nth = 2;
-    int square_count;
-
-    for(square_count = 3; grain_cal < grain_goal; ++square_count){
-        grain_nth *= grain_nth;
-        grain_cal += grain_nth;
-        cout << "Square: " << square_count << " grains: " << grain_cal << endl;
-    }
-    cout << "The least square you need is " << square_count;
+    cout << "The least square you need is " << count - 1;
     return 0;
 }
 
