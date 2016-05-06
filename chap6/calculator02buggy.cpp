@@ -135,6 +135,7 @@ double term()
         case '*':
             left *= primary();
             t = ts.get();
+            break;
         case '/':
             {
                 double d = primary();
@@ -161,11 +162,11 @@ double expression()
     while(true) {
         switch(t.kind) {
         case '+':
-            left += term();    // evaluate Term and add
+            left += expression();    // evaluate Term and add
             t = ts.get();
             break;
         case '-':
-            left += term();    // evaluate Term and subtract
+            left -= expression();    // evaluate Term and subtract
             t = ts.get();
             break;
         default:
