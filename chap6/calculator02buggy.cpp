@@ -18,7 +18,17 @@
 */
 
 #include "std_lib_facilities.h"
+#include <cassert>
 
+
+/*Helper funciton for calculate factorical*/
+long get_factorical(int n){
+    assert(n >= 0);
+    if(n == 0)  return 1;
+    if(n <=2)   return n;
+    else
+        return n*get_factorical(n-1);
+}
 //------------------------------------------------------------------------------
 
 class Token {
@@ -77,7 +87,7 @@ Token Token_stream::get()
     switch (ch) {
     case ';':    // for "print"
     case 'q':    // for "quit"
-    case '(': case ')': case '+': case '-': case '*': case '/':
+    case '(': case ')': case '+': case '-': case '*': case '/': case '!':
         return Token(ch);        // let each character represent itself
     case '.':
     case '0': case '1': case '2': case '3': case '4':
@@ -113,10 +123,26 @@ double primary()
             double d = expression();
             t = ts.get();
             if (t.kind != ')') error("')' expected");
+
+            Token next = ts.get();
+            if(next.kind != '!'){
+                ts.putback(next);
+                return t.value;  // return the number's value
+            }
+            else
+                return get_factorical(int(d));
             return d;
         }
     case '8':            // we use '8' to represent a number
-        return t.value;  // return the number's value
+        {
+            Token next = ts.get();
+            if(next.kind != '!'){
+                ts.putback(next);
+                return t.value;  // return the number's value
+            }
+            else
+                return get_factorical(int(t.value));
+        }
     default:
         error("primary expected");
     }
@@ -150,7 +176,12 @@ double term()
         }
     }
 }
+//------------------------------------------------------------------------------
+// deal with !
 
+// double factorical(){
+
+// }
 //------------------------------------------------------------------------------
 
 // deal with + and -
