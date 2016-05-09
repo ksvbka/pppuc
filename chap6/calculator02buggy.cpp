@@ -130,7 +130,7 @@ double primary()
             Token next = ts.get();
             if(next.kind != '!'){
                 ts.putback(next);
-                return t.value;  // return the number's value
+                return d;  // return the number's value
             }
             else
                 return get_factorical(int(d));
