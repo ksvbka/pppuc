@@ -1,6 +1,26 @@
 #include <iostream>
 #include <limits>
 
+/*
+Sentence:
+    Noun Verb
+    Article Noun Verb
+    Sentence Conjunction Sentence
+Article:
+    "the"
+Conjunction:
+    "and"
+    "or"
+    "but"
+Noun:
+    "birds"
+    "fish"
+    "C++"
+Verb:
+    "rules"
+    "fly"
+    "swim"
+*/
 using namespace std;
 
 enum error_code{
@@ -9,6 +29,10 @@ enum error_code{
     ER_CONJ,
     NO_ERR
 };
+
+bool is_article(string token){
+    return (token == "the");
+}
 
 bool is_noun(string token){
     return( token == "birds" || token == "fish" || token == "c++");
@@ -25,6 +49,8 @@ bool is_conjunction(string token){
 int sentence(){
     string token;
     cin >> token;
+    if(is_article(token))
+        cin >> token; // check next token
     if(!is_noun(token)){
         // return "nFalse - expected noun";
         return ER_NOUN;
@@ -35,17 +61,19 @@ int sentence(){
         return ER_VERB;
     }
     if(cin >>token){
+        if(token == ";")
+            return NO_ERR;
         if(is_conjunction(token))
             sentence();
         else
             return ER_CONJ;
     }
-    return NO_ERR;
 }
 
 int main(int argc, char const *argv[]){
 
     cout << "sentence demo:" << endl;
+    cout << "Input a sentence need check, finish by \" ;\" :" << endl;
     string token;
     while(cin){
         char ch;
