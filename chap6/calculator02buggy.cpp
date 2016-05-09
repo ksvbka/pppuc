@@ -134,7 +134,6 @@ double primary()
             }
             else
                 return get_factorical(int(d));
-            return d;
         }
     case '8':            // we use '8' to represent a number
         {
