@@ -7,7 +7,7 @@
 	We have inserted 3 bugs that the compiler will catch and 3 that it won't.
 */
 
-#include "std_lib_facilities.h"
+#include "../std_lib_facilities.h"
 
 struct Token {
 	char kind;
@@ -15,6 +15,7 @@ struct Token {
 	string name;
 	Token(char ch) :kind(ch), value(0) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
+	Token(char ch, string n): kind(ch), name(n) {}
 };
 
 class Token_stream {
@@ -62,7 +63,8 @@ Token Token_stream::get()
 	case '7':
 	case '8':
 	case '9':
-	{	cin.unget();
+	{
+		cin.unget();
 		double val;
 		cin >> val;
 		return Token(number,val);
@@ -71,9 +73,9 @@ Token Token_stream::get()
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s=ch;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
 			cin.unget();
-			if (s == "let") return Token(let);	
+			if (s == "let") return Token(let);
 			if (s == "quit") return Token(name);
 			return Token(name,s);
 		}
@@ -100,7 +102,7 @@ struct Variable {
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
-vector<Variable> names;	
+vector<Variable> names;
 
 double get_value(string s)
 {
