@@ -30,17 +30,15 @@ void fibonacci(int x, int y, vector<int>& v, int n){
         cout << "n can't <= 0" << endl;
         return;
     }
-
-    if(n == 1)
-        v = {x};
-    else if(n == 2)
-       v = {x,y};
-    else{
-        v.clear();
-        v.push_back(x);
-        v.push_back(y);
-        for(int i = 2; i < n; ++i)
-            v.push_back(v[i-1] + v[i-2]);
+    v.clear();
+    if(n >= 1) v.push_back(x);
+    if(n >= 2) v.push_back(y);
+    int z; // hold temp data
+    for(int i = 2; i < n; ++i){
+        z = x + y;
+        v.push_back(z);
+        x = y;
+        y = z;
     }
     return;
 }
