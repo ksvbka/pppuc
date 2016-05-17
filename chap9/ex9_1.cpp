@@ -26,11 +26,10 @@ public:
     void read_names();
     /*Read the age of each name input*/
     void read_ages();
-    /*Print the name - age in one line, order by name vector*/
-    void print();
     /*Sort name vector and reorganizes the age vector to match*/
     void sort_name();
-
+    /*Print the Name_pair*/
+    friend ostream& operator<<(ostream &os, const Name_pairs& myName_pairs);
 private:
     vector <string> name;
     vector <double> age;
@@ -55,11 +54,6 @@ void Name_pairs::read_ages(){
     }
 }
 
-void Name_pairs::print(){
-    for(int i = 0; i < name.size(); ++i)
-        cout << name[i] << "\t: " << age[i] << endl;
-}
-
 void Name_pairs::sort_name(){
     /*TODO: Incerase performance*/
     vector<string> org_name = name;
@@ -75,14 +69,21 @@ void Name_pairs::sort_name(){
     age = sorted_age;
 }
 
+ostream& operator<<(ostream &os, const Name_pairs& myName_pairs){
+    int size = myName_pairs.name.size();
+    for(int i = 0; i < size; ++i)
+        os << myName_pairs.name[i] << "\t: " << myName_pairs.age[i] << endl;
+    return os;
+}
+
 int main(int argc, char const *argv[])
 {
     Name_pairs myName_pairs;
     myName_pairs.read_names();
     myName_pairs.read_ages();
-    myName_pairs.print();
+    cout << myName_pairs;
     cout << "Sort name to alphabetical: "<< endl;
     myName_pairs.sort_name();
-    myName_pairs.print();
+    cout << myName_pairs;
     return 0;
 }
