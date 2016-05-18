@@ -9,24 +9,52 @@ don’t fit into a long int.
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
 
 /*Convert dollar (in doube) to cent */
 long toCent(double m);
 
+/**/
+struct Convert_coeff{
+    string name_;
+    double coeff_;
+    Convert_coeff(string currency, double coeff)
+    : name_(currency), coeff_(coeff)
+    {}
+};
+
+/*Global convert table*/
+static vector<Convert_coeff> Convert_table{Convert_coeff{"DKK", 2.5}};
+
+/**/
+double get_currency(string name){
+    for(auto item : Convert_table){
+        if(item.name_ == name)
+            return item.coeff_;
+    }
+    throw runtime_error("Don't support this currency");
+}
+
 class Money
 {
 public:
     Money(): amount_(0) {};
 
-    Money(double m): amount_(toCent(m)) {};
+    Money(double m): amount_(toCent(m)), currency_("USD") {};
+
+    Money(double m, string currency)
+        : amount_(toCent(m)), currency_(currency)
+    {};
 
     Money(const Money& otherMoney){
         amount_ = otherMoney.amount_;
+        currency_ = otherMoney.currency_;
     }
 
     long amount() const {return amount_;}
+    string currency() const { return currency_;}
 
     Money& operator+=(const Money& rhs);
     Money& operator-=(const Money& rhs);
@@ -37,6 +65,7 @@ public:
     friend istream& operator>>(istream& is, Money& rhs);
 private:
     long amount_;
+    string currency_;
 };
 /*Helper function*/
 Money operator+(Money lhs, Money rhs);
@@ -50,12 +79,12 @@ long toCent(double m){
     return(cent_x_10 / 10);
 }
  Money& Money::operator+=(const Money& rhs){
-    amount_ += rhs.amount();
+    amount_ += get_currency(rhs.currency()) * rhs.amount();
     return *this;
  }
 
  Money& Money::operator-=(const Money& rhs){
-    amount_ -= rhs.amount();
+    amount_ -= get_currency(rhs.currency()) * rhs.amount();;
     return *this;
  }
 
@@ -67,21 +96,28 @@ Money operator-(Money lhs, Money rhs){
 }
 
 ostream& operator<<(ostream& os, const Money& rhs){
-    cout << "$" << rhs.amount()/100 << "." << rhs.amount() % 100;
+    cout << rhs.amount()/100 << "." << rhs.amount() % 100 << rhs.currency() ;
 }
+
 istream& operator>>(istream& is, Money& rhs){
+    string input_currency;
     double input_money;
-    cin >> input_money;
-    rhs = Money(input_money);
+
+    cin >> input_money >>input_currency ;
+    rhs = Money(input_money, input_currency);
 }
 
 int main(int argc, char const *argv[])
 {
-    Money a(1000.2345);
-    Money b(23.3424);
-    cout << a + b;
-    cout << "Enter the amount of money: ";
-    cin >> a;
-    cout << a;
+    try{
+        Money a(1000.2345, "USD");
+        Money b(100, "DKK");
+        cout << a + b;
+        cout << "Enter the amount of money: ";
+        cin >> a;
+        cout << a;
+    }catch(runtime_error &e){
+        cout << e.what();
+    }
     return 0;
 }
