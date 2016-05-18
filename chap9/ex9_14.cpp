@@ -100,6 +100,7 @@ ostream& operator<<(ostream& os, const Money& rhs){
 }
 
 istream& operator>>(istream& is, Money& rhs){
+    /* TODO:Check valid input!*/
     string input_currency;
     double input_money;
 
