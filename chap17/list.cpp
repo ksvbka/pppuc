@@ -68,11 +68,22 @@ Link* Link::find(const string& s){
     return nullptr;
 }
 
+void print_all(Link* p){
+    cout << "{" ;
+    while(p){
+        cout << p->value;
+        if(p = p->next()) cout << ",";
+    }
+    cout << "}";
+}
+
 int main(int argc, char const *argv[])
 {
     Link* norse_gods = new Link("Thor");
     norse_gods = norse_gods->insert(new Link("Odin"));
     norse_gods = norse_gods->insert(new Link("Zeus"));
+
+    print_all(norse_gods);
     return 0;
 }
 
