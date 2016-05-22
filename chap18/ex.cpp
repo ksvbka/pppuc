@@ -83,10 +83,11 @@ string cat_dot(const string& s1, const string& s2){
 */
 char* cat_dot_cstr(const char* s1, const char* s2){
     char* ret = new char[length(s1) + length(s2) + 1];
+    char* p = ret;
 
-    while(*ret++ = *s1++);
-    *ret++ = '.';
-    while(*ret++ = *s2++);
+    while(*s1) *p++ = *s1++;
+    *p++ = '.';
+    while(*p++ = *s2++);
 
     return ret;
 }
@@ -165,13 +166,14 @@ int main(int argc, char const *argv[])
 
     // cout << s3 <<endl;
 
-    // cout << "\nTest strcmp: ";
-    // cout << strcmp("abc", "abc");
-    // cout << cat_dot("letrungkien","k53.hut@gmail.com") << endl;
+    cout << "\nTest strcmp: ";
+    cout << strcmp("abc", "abc") << endl;
+    cout << cat_dot("letrungkien","k53.hut@gmail.com") << endl;
 
-    // cout << "Test cat_dot_cstr" << endl;
-    // cout << cat_dot_cstr("letrungkien","k53.hut@gmail.com") << endl;
+    cout << "Test cat_dot_cstr" << endl;
+    cout << cat_dot_cstr("asdf","@gmail.com") << endl;
 
     cout << is_palidrome("HooH") << endl;
+
     return 0;
 }
