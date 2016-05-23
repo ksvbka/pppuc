@@ -50,8 +50,8 @@ Iter2 copy(Iter1 f1, Iter1 e1, Iter2 f2){
         return f2;
     Iter1 p = f1;
     Iter2 q = f2;
-    while(i != e1)
-        *p++ = *i++;
+    while(p != e1)
+        *q++ = *p++;
     return p;
 }
 
