@@ -44,7 +44,7 @@ After each operation (as defined by a line of this drill) print the vector.
 #include <fstream>
 #include <vector>
 #include <algorithm>
-
+#include <map>
 
 using namespace std;
 
@@ -154,6 +154,25 @@ int main(int argc, char const *argv[]) {
     cout << "\n Remove by idd" << endl;
     for (auto elem : data)
         cout << elem;
+
+    cout << "\n ------------------ using map-----------------" << endl;
+    map<string, int> msi;
+    string name = "elem";
+    for(int i = 0; i < 10; ++i){
+        msi[name + char( i + '0')] = i;
+    }
+
+    for(auto elem : msi)
+        cout << elem.first << " : " << elem.second << endl;
+
+    /*Delete elem have name elem3*/
+    cout << "\nMap delete elem" << endl;
+    auto p = msi.find("elem3");
+    if(p != msi.end())
+        msi.erase(p);
+
+    for(auto elem : msi)
+        cout << elem.first << " : " << elem.second << endl;;
 
     return 0;
 }
